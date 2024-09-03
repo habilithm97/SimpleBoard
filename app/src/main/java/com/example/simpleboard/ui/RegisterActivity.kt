@@ -1,15 +1,15 @@
 package com.example.simpleboard.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.simpleboard.databinding.ActivityLoginBinding
+import com.example.simpleboard.R
+import com.example.simpleboard.databinding.ActivityRegisterBinding
 
-class LoginActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
+class RegisterActivity : AppCompatActivity() {
+    private val binding by lazy { ActivityRegisterBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +25,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun init() {
         binding.apply {
-            btnSignup.setOnClickListener {
-                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                startActivity(intent)
-            }
+
         }
     }
 }
