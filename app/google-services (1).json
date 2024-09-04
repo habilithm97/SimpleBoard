@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "792525290057",
+    "project_id": "simpleboard-b7c1d",
+    "storage_bucket": "simpleboard-b7c1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792525290057:android:9e852a28186ba77cfb1d98",
+        "android_client_info": {
+          "package_name": "com.example.simpleboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPZPTHSLohJY7-58fAETTdHSO_I7bbg6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
