@@ -33,10 +33,19 @@ class RegisterActivity : AppCompatActivity() {
             toolbar.navigationIcon?.setTint(Color.WHITE)
 
             btnRegister.setOnClickListener {
-                val email = edtEmail.text.toString()
-                val pw = edtPw.text.toString()
+                val email = edtEmail.text.toString().trim()
+                val pw = edtPw.text.toString().trim()
 
-                /** Firebase Authentication을 이용한 회원가입 **/
+                if(email.isEmpty()) {
+                    Toast.makeText(baseContext, "이메일을 입력해 주세요. ", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if(pw.isEmpty()) {
+                    Toast.makeText(baseContext, "비밀번호를 입력해 주세요. ", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                // 회원가입
                 MyApplication.auth.createUserWithEmailAndPassword(email, pw) // 사용자 생성 요청
                     .addOnCompleteListener(this@RegisterActivity) { task ->
                         edtEmail.text.clear()
@@ -47,15 +56,14 @@ class RegisterActivity : AppCompatActivity() {
                             MyApplication.auth.currentUser?.sendEmailVerification()
                                 ?.addOnCompleteListener { sendTask ->
                                     if (sendTask.isSuccessful) { // 인증 메일 전송 성공
-                                        Toast.makeText(baseContext, "회원가입에 성공했습니다. 전송된 메일을 확인해 주세요. ",
-                                            Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(baseContext, "회원가입에 성공했습니다. 전송된 메일을 확인해 주세요. ", Toast.LENGTH_SHORT).show()
                                         finish()
                                     } else { // 인증 메일 전송 실패
-                                        Toast.makeText(baseContext, "메일 전송 실패", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(baseContext, "메일 전송에 실패했습니다. ", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                         } else { // 회원가입 실패
-                            Toast.makeText(baseContext, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(baseContext, "회원가입에 실패했습니다. ", Toast.LENGTH_SHORT).show()
                         }
                     }
             }
