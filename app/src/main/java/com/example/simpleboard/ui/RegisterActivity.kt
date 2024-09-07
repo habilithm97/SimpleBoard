@@ -1,5 +1,6 @@
 package com.example.simpleboard.ui
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -13,6 +14,7 @@ import com.example.simpleboard.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
     private val binding by lazy { ActivityRegisterBinding.inflate(layoutInflater) }
+    private lateinit var toast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +39,11 @@ class RegisterActivity : AppCompatActivity() {
                 val pw = edtPw.text.toString().trim()
 
                 if(email.isEmpty()) {
-                    Toast.makeText(baseContext, "이메일을 입력해 주세요. ", Toast.LENGTH_SHORT).show()
+                    showToast(baseContext, "이메일을 입력해 주세요. ")
                     return@setOnClickListener
                 }
                 if(pw.isEmpty()) {
-                    Toast.makeText(baseContext, "비밀번호를 입력해 주세요. ", Toast.LENGTH_SHORT).show()
+                    showToast(baseContext, "비밀번호를 입력해 주세요. ")
                     return@setOnClickListener
                 }
 
@@ -56,14 +58,14 @@ class RegisterActivity : AppCompatActivity() {
                             MyApplication.auth.currentUser?.sendEmailVerification()
                                 ?.addOnCompleteListener { sendTask ->
                                     if (sendTask.isSuccessful) { // 인증 메일 전송 성공
-                                        Toast.makeText(baseContext, "회원가입에 성공했습니다. 전송된 메일을 확인해 주세요. ", Toast.LENGTH_SHORT).show()
+                                        showToast(baseContext, "회원가입에 성공했습니다. 전송된 메일을 확인해 주세요. ")
                                         finish()
                                     } else { // 인증 메일 전송 실패
-                                        Toast.makeText(baseContext, "메일 전송에 실패했습니다. ", Toast.LENGTH_SHORT).show()
+                                        showToast(baseContext, "메일 전송에 실패했습니다. ")
                                     }
                                 }
                         } else { // 회원가입 실패
-                            Toast.makeText(baseContext, "회원가입에 실패했습니다. ", Toast.LENGTH_SHORT).show()
+                            showToast(baseContext, "회원가입에 실패했습니다. ")
                         }
                     }
             }
@@ -78,5 +80,11 @@ class RegisterActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showToast(context: Context, msg: String) { // 토스트 메시지 중복 방지
+        toast.cancel()
+        toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
+        toast.show()
     }
 }
