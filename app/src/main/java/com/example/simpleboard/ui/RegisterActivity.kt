@@ -1,7 +1,6 @@
 package com.example.simpleboard.ui
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -32,7 +31,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.apply {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
-            toolbar.navigationIcon?.setTint(Color.WHITE)
+            supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
 
             btnRegister.setOnClickListener {
                 val email = edtEmail.text.toString().trim()
