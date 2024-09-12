@@ -83,7 +83,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToast(context: Context, msg: String) { // 토스트 메시지 중복 방지
+    private fun showToast(context: Context, msg: String) { // Toast 중복 방지
         toast?.cancel()
         toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
         toast?.show()

@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                 if(task.isSuccessful) { // 로그인 성공
                     if(MyApplication.checkAuth()) { // 이메일 인증 성공
                         MyApplication.email = email
-                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                     } else { // 이메일 인증 실패
                         showToast(baseContext, "전송된 메일로 이메일 인증이 되지 않았습니다. ")
@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun showToast(context: Context, msg: String) { // 토스트 메시지 중복 방지
+    private fun showToast(context: Context, msg: String) { // Toast 중복 방지
         toast?.cancel()
         toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
         toast?.show()

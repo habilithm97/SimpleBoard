@@ -18,7 +18,7 @@
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/bookkmyungjo_light"
             android:text="@string/signup"
-            android:textSize="40sp" />
+            android:textSize="30sp" />
 
     </androidx.appcompat.widget.Toolbar>
 

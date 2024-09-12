@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SimpleBoard"
         tools:targetApi="31">
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.MainActivity"
             android:exported="false" />
         <activity
             android:name=".ui.RegisterActivity"
