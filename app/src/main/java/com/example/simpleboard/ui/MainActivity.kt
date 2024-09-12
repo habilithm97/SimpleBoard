@@ -1,6 +1,8 @@
 package com.example.simpleboard.ui
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -47,6 +49,22 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.setting -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
