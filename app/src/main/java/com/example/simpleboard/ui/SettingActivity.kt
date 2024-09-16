@@ -1,9 +1,11 @@
 package com.example.simpleboard.ui
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -35,11 +37,24 @@ class SettingActivity : AppCompatActivity() {
             listView.setOnItemClickListener { _, _, position, _ ->
                 val selectedItem = items[position]
 
-                if(selectedItem == getString(R.string.logout)) {
-                    logout()
+                if (selectedItem == getString(R.string.logout)) {
+                    showLogoutDialog()
                 }
             }
         }
+    }
+
+    private fun showLogoutDialog() {
+        AlertDialog.Builder(this@SettingActivity).apply {
+            setTitle(R.string.logout)
+            setMessage("정말 로그아웃 하시겠습니까?")
+            setPositiveButton(R.string.logout) { _: DialogInterface, _: Int ->
+                logout()
+            }
+            setNegativeButton(R.string.cancel) { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
+        }.create().show()
     }
 
     private fun logout() {
