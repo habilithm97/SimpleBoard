@@ -46,7 +46,9 @@ class SettingActivity : AppCompatActivity() {
         MyApplication.auth.signOut()
         MyApplication.email = null
 
-        val intent = Intent(this@SettingActivity, LoginActivity::class.java)
+        val intent = Intent(this@SettingActivity, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
         startActivity(intent)
         finish() // SettingActivity를 명시적으로 종료
     }
