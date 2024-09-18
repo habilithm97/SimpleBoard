@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
                 startActivity(intent)
             }
+            /*
             btnLogin.setOnClickListener {
                 val email = edtEmail.text.toString().trim()
                 val pw = edtPw.text.toString().trim()
@@ -50,6 +51,10 @@ class LoginActivity : AppCompatActivity() {
                 }
                 login(email, pw)
                 progressBar.visibility = View.VISIBLE
+            } */
+            btnLogin.setOnClickListener { // 테스트용
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
             }
         }
     }

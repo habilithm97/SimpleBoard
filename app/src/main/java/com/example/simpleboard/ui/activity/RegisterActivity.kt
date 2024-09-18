@@ -3,6 +3,7 @@ package com.example.simpleboard.ui.activity
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,8 @@ class RegisterActivity : AppCompatActivity() {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
             supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
+
+            edtEmail.requestFocus()
 
             btnRegister.setOnClickListener {
                 val email = edtEmail.text.toString().trim()
