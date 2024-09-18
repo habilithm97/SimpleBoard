@@ -1,4 +1,4 @@
-package com.example.simpleboard.ui
+package com.example.simpleboard.ui.activity
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.simpleboard.application.MyApplication
@@ -18,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -38,11 +40,11 @@ class LoginActivity : AppCompatActivity() {
                 val email = edtEmail.text.toString().trim()
                 val pw = edtPw.text.toString().trim()
 
-                if(email.isEmpty()) {
+                if (email.isEmpty()) {
                     showToast(baseContext, "이메일을 입력해 주세요. ")
                     return@setOnClickListener
                 }
-                if(pw.isEmpty()) {
+                if (pw.isEmpty()) {
                     showToast(baseContext, "비밀번호를 입력해 주세요. ")
                     return@setOnClickListener
                 }
@@ -58,8 +60,8 @@ class LoginActivity : AppCompatActivity() {
                 binding.edtEmail.text.clear()
                 binding.edtPw.text.clear()
 
-                if(task.isSuccessful) { // 로그인 성공
-                    if(MyApplication.checkAuth()) { // 이메일 인증 성공
+                if (task.isSuccessful) { // 로그인 성공
+                    if (MyApplication.checkAuth()) { // 이메일 인증 성공
                         MyApplication.email = email
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)

@@ -1,4 +1,4 @@
-package com.example.simpleboard.ui
+package com.example.simpleboard.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

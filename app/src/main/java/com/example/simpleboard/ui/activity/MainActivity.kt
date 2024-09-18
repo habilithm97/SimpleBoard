@@ -1,4 +1,4 @@
-package com.example.simpleboard.ui
+package com.example.simpleboard.ui.activity
 
 import android.content.Intent
 import android.os.Bundle

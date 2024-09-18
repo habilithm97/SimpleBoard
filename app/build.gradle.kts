@@ -59,4 +59,6 @@ dependencies {
 
     implementation(libs.play.services.auth) // 구글 로그인 및 인증
     implementation(libs.multidex) // 멀티덱스
+
+    implementation(libs.androidx.core.splashscreen)
 }
