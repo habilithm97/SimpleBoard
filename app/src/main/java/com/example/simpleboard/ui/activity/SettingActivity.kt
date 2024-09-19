@@ -3,6 +3,7 @@ package com.example.simpleboard.ui.activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -33,6 +34,10 @@ class SettingActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this@SettingActivity, android.R.layout.simple_list_item_1, items)
 
         binding.apply {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
+            supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
+
             listView.adapter = adapter
             listView.setOnItemClickListener { _, _, position, _ ->
                 val selectedItem = items[position]
@@ -66,5 +71,15 @@ class SettingActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish() // SettingActivity를 명시적으로 종료
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

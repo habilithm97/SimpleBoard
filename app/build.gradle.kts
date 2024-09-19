@@ -56,9 +56,11 @@ dependencies {
 
     implementation(platform(libs.firebase.bom)) // Firebase 라이브러리 버전 관리 및 동기화
     implementation(libs.firebase.auth.ktx)
-
     implementation(libs.play.services.auth) // 구글 로그인 및 인증
     implementation(libs.multidex) // 멀티덱스
 
+    // SplashScreen
     implementation(libs.androidx.core.splashscreen)
+
+    implementation(libs.firebase.firestore.ktx)
 }

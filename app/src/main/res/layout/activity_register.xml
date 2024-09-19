@@ -11,13 +11,11 @@
         android:background="@color/transparent">
 
         <TextView
-            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:fontFamily="@font/bookkmyungjo_light"
             android:text="@string/signup"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
