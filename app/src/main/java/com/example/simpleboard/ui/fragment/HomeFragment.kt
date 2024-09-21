@@ -40,4 +40,9 @@ class HomeFragment : Fragment() {
         )
         postAdapter.submitList(samplePosts)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // 메모리 릭 방지
+    }
 }
