@@ -36,7 +36,7 @@
                 android:id="@+id/tvContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/bookkmyungjo_light"
                 android:text="@{post.content}"
                 android:textColor="@color/gray" />
