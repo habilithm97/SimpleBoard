@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleboard.Post
 import com.example.simpleboard.databinding.ItemPostBinding
 
-class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(diffCallback) {
+class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLBACK) {
 
     inner class PostViewHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
@@ -27,7 +27,7 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(diffCallback) 
     }
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<Post>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Post>() {
             override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem.id == newItem.id
             }

@@ -1,5 +1,6 @@
 package com.example.simpleboard
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -15,6 +16,7 @@ class FirestoreRepository {
         }
     }
 
+    /*
     suspend fun getPosts(): List<Post> {
         return try {
             val result = postCollection.get().await()
@@ -22,6 +24,19 @@ class FirestoreRepository {
             result.documents.map { document ->
                 document.toObject(Post::class.java)!!
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
+    } */
+
+    suspend fun getPosts(): List<Post> {
+        return try {
+            val result = postCollection.get().await()
+            val posts = result.documents.map { document ->
+                document.toObject(Post::class.java)!!
+            }
+            posts
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()

@@ -1,14 +1,22 @@
 package com.example.simpleboard.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.simpleboard.FirestoreRepository
 import com.example.simpleboard.Post
+import com.example.simpleboard.PostViewModel
+import com.example.simpleboard.PostViewModelFactory
+import com.example.simpleboard.R
 import com.example.simpleboard.adapter.PostAdapter
 import com.example.simpleboard.databinding.FragmentHomeBinding
+import java.util.UUID
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -26,19 +34,18 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
-            recyclerView.apply {
-                adapter = postAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-            }
+        val repository = FirestoreRepository()
+        val viewModelFactory = PostViewModelFactory(repository)
+        val postViewModel = ViewModelProvider(this@HomeFragment, viewModelFactory)[PostViewModel::class.java]
+
+        binding.recyclerView.apply {
+            adapter = postAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
-        val samplePosts = listOf(
-            Post(id = "1", title = "첫 번째 게시물", content = "첫 번째 게시물입니다. "),
-            Post(id = "2", title = "두 번째 게시물", content = "두 번째 게시물입니다. "),
-            Post(id = "1", title = "첫 번째 게시물", content = "첫 번째 게시물입니다. "),
-            Post(id = "2", title = "두 번째 게시물", content = "두 번째 게시물입니다. ")
-        )
-        postAdapter.submitList(samplePosts)
+        postViewModel.posts.observe(viewLifecycleOwner) { posts ->
+            postAdapter.submitList(posts)
+        }
+        postViewModel.getPosts()
     }
 
     override fun onDestroyView() {

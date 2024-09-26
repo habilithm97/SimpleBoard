@@ -14,7 +14,7 @@ import com.example.simpleboard.adapter.ViewPagerAdapter
 import com.example.simpleboard.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         binding.apply {
-            viewPager.adapter = ViewPagerAdapter(this@MainActivity)
+            viewPager.adapter = ViewPagerAdapter(this@MainActivity, viewPager)
 
             val menuItems = listOf(
-                R.id.nav_home, R.id.nav_search,
-                R.id.nav_add, R.id.nav_profile, R.id.nav_chat
+                R.id.nav_home, R.id.nav_search, R.id.nav_add,
+                R.id.nav_profile, R.id.nav_chat
             )
             viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
