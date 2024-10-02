@@ -16,6 +16,14 @@ import com.example.simpleboard.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
+    val menuItems = listOf(
+        R.id.nav_home,
+        R.id.nav_search,
+        R.id.nav_add,
+        R.id.nav_profile,
+        R.id.nav_chat
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,28 +38,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
         binding.apply {
-            viewPager.adapter = ViewPagerAdapter(this@MainActivity, viewPager)
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
 
-            val menuItems = listOf(
-                R.id.nav_home, R.id.nav_search, R.id.nav_add,
-                R.id.nav_profile, R.id.nav_chat
-            )
+            viewPager.adapter = ViewPagerAdapter(this@MainActivity)
+
             viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    if (position in menuItems.indices) {
-                        bottomNavi.selectedItemId = menuItems[position]
-                    }
+                    bottomNavi.selectedItemId = menuItems.getOrNull(position) ?: return
                 }
             })
             bottomNavi.setOnItemSelectedListener { item ->
-                val index = menuItems.indexOf(item.itemId)
-                if (index != -1) {
-                    viewPager.currentItem = index
+                val position = menuItems.indexOf(item.itemId)
+                if (position != -1) {
+                    viewPager.currentItem = position
+                } else {
+                    return@setOnItemSelectedListener true
                 }
                 true
             }
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
         }
     }
 
@@ -63,10 +68,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.setting -> {
-                val intent = Intent(this@MainActivity, SettingActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this@MainActivity, SettingActivity::class.java))
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

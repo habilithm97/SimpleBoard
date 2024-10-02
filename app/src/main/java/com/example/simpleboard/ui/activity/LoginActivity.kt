@@ -33,28 +33,22 @@ class LoginActivity : AppCompatActivity() {
     private fun init() {
         binding.apply {
             btnSignup.setOnClickListener {
-                val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
             /*
             btnLogin.setOnClickListener {
                 val email = edtEmail.text.toString().trim()
                 val pw = edtPw.text.toString().trim()
 
-                if (email.isEmpty()) {
-                    showToast(baseContext, "이메일을 입력해 주세요. ")
-                    return@setOnClickListener
+                if (email.isBlank() || pw.isBlank()) {
+                    showToast(baseContext, "이메일과 비밀번호를 모두 입력해 주세요.")
+                } else {
+                    login(email, pw)
+                    progressBar.visibility = View.VISIBLE
                 }
-                if (pw.isEmpty()) {
-                    showToast(baseContext, "비밀번호를 입력해 주세요. ")
-                    return@setOnClickListener
-                }
-                login(email, pw)
-                progressBar.visibility = View.VISIBLE
             } */
             btnLogin.setOnClickListener { // 테스트용
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             }
         }
     }
@@ -68,8 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) { // 로그인 성공
                     if (MyApplication.checkAuth()) { // 이메일 인증 성공
                         MyApplication.email = email
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     } else { // 이메일 인증 실패
                         showToast(baseContext, "전송된 메일로 이메일 인증이 되지 않았습니다. ")
                     }
@@ -79,9 +72,8 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun showToast(context: Context, msg: String) { // Toast 중복 방지
+    private fun showToast(context: Context, msg: String) {
         toast?.cancel()
-        toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
-        toast?.show()
+        toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT).apply { show() }
     }
 }

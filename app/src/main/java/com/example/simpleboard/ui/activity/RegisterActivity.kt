@@ -3,7 +3,6 @@ package com.example.simpleboard.ui.activity
 import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -40,35 +39,34 @@ class RegisterActivity : AppCompatActivity() {
                 val email = edtEmail.text.toString().trim()
                 val pw = edtPw.text.toString().trim()
 
-                if(email.isEmpty()) {
-                    showToast(baseContext, "이메일을 입력해 주세요. ")
-                    return@setOnClickListener
+                if (email.isBlank() || pw.isBlank()) {
+                    showToast(baseContext, "이메일과 비밀번호를 모두 입력해 주세요.")
+                } else {
+                    register(email, pw)
                 }
-                if(pw.isEmpty()) {
-                    showToast(baseContext, "비밀번호를 입력해 주세요. ")
-                    return@setOnClickListener
-                }
-                register(email, pw)
             }
         }
     }
 
     private fun register(email: String, pw: String) {
-        MyApplication.auth.createUserWithEmailAndPassword(email, pw) // 사용자 생성 요청
+        MyApplication.auth.createUserWithEmailAndPassword(email, pw)
             .addOnCompleteListener(this@RegisterActivity) { task ->
-                binding.edtEmail.text.clear()
-                binding.edtPw.text.clear()
+                binding.apply {
+                    edtEmail.text.clear()
+                    edtPw.text.clear()
+                }
 
                 if (task.isSuccessful) { // 회원가입 성공
                     // 생성된 사용자의 이메일로 인증 메일 전송 요청
                     MyApplication.auth.currentUser?.sendEmailVerification()
                         ?.addOnCompleteListener { sendTask ->
-                            if (sendTask.isSuccessful) { // 인증 메일 전송 성공
-                                showToast(baseContext, "회원가입에 성공했습니다. 전송된 메일을 확인해 주세요. ")
-                                finish()
-                            } else { // 인증 메일 전송 실패
-                                showToast(baseContext, "메일 전송에 실패했습니다. ")
+                            val msg = if (sendTask.isSuccessful) {
+                                "회원가입에 성공했습니다. 전송된 메일을 확인해 주세요."
+                            } else {
+                                "메일 전송에 실패했습니다. "
                             }
+                            showToast(baseContext, msg)
+                            if (sendTask.isSuccessful) finish()
                         }
                 } else { // 회원가입 실패
                     showToast(baseContext, "회원가입에 실패했습니다. ")
@@ -77,18 +75,16 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        return if (item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
     }
 
-    private fun showToast(context: Context, msg: String) { // Toast 중복 방지
+    private fun showToast(context: Context, msg: String) {
         toast?.cancel()
-        toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT)
-        toast?.show()
+        toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT).apply { show() }
     }
 }

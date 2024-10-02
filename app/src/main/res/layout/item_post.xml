@@ -6,7 +6,7 @@
 
         <variable
             name="post"
-            type="com.example.simpleboard.Post" />
+            type="com.example.simpleboard.data.Post" />
     </data>
 
     <androidx.cardview.widget.CardView

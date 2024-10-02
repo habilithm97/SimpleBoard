@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.simpleboard.Post
+import com.example.simpleboard.data.Post
 import com.example.simpleboard.databinding.ItemPostBinding
 
 class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLBACK) {
 
-    inner class PostViewHolder(private val binding: ItemPostBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PostViewHolder(private val binding: ItemPostBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.post = post // XML에서 직접 데이터를 참조하여 자동으로 UI 업데이트
-            binding.executePendingBindings() // 지연된 바인딩을 즉시 실행하여 데이터가 뷰에 반영되도록 함
+            binding.executePendingBindings() // 지연된 바인딩을 즉시 실행하여 데이터가 뷰에 반영되도록
         }
     }
 
@@ -31,6 +32,7 @@ class PostAdapter : ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLBACK)
             override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem.id == newItem.id
             }
+
             override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
                 return oldItem == newItem
             }

@@ -1,9 +1,11 @@
-package com.example.simpleboard
+package com.example.simpleboard.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.simpleboard.repository.PostRepository
 
-class PostViewModelFactory(private val repository: FirestoreRepository) : ViewModelProvider.Factory {
+// ViewModel을 생성할 때 필요한 PostRepository를 주입하기 위한 팩토리 클래스
+class PostViewModelFactory(private val repository: PostRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PostViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
@@ -12,6 +14,3 @@ class PostViewModelFactory(private val repository: FirestoreRepository) : ViewMo
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-/**
- * ViewModel을 생성할 때 필요한 FirestoreRepository를 주입하기 위한 팩토리 클래스
- */

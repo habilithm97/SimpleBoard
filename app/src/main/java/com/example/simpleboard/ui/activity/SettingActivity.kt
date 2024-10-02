@@ -1,6 +1,5 @@
 package com.example.simpleboard.ui.activity
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -30,20 +29,20 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        val items = arrayOf(getString(R.string.logout))
-        val adapter = ArrayAdapter(this@SettingActivity, android.R.layout.simple_list_item_1, items)
-
         binding.apply {
             setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
-            supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
-
-            listView.adapter = adapter
-            listView.setOnItemClickListener { _, _, position, _ ->
-                val selectedItem = items[position]
-
-                if (selectedItem == getString(R.string.logout)) {
-                    showLogoutDialog()
+            supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 활성화
+                setDisplayShowTitleEnabled(false) // Title 제거
+            }
+            listView.apply {
+                adapter = ArrayAdapter(
+                    this@SettingActivity,
+                    android.R.layout.simple_list_item_1,
+                    arrayOf(getString(R.string.logout))
+                )
+                setOnItemClickListener { _, _, position, _ ->
+                    if (position == 0) showLogoutDialog()
                 }
             }
         }
@@ -53,12 +52,8 @@ class SettingActivity : AppCompatActivity() {
         AlertDialog.Builder(this@SettingActivity).apply {
             setTitle(R.string.logout)
             setMessage("정말 로그아웃 하시겠습니까?")
-            setPositiveButton(R.string.logout) { _: DialogInterface, _: Int ->
-                logout()
-            }
-            setNegativeButton(R.string.cancel) { dialogInterface: DialogInterface, _: Int ->
-                dialogInterface.dismiss()
-            }
+            setPositiveButton(R.string.logout) { _, _ -> logout() }
+            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
         }.create().show()
     }
 
@@ -66,20 +61,18 @@ class SettingActivity : AppCompatActivity() {
         MyApplication.auth.signOut()
         MyApplication.email = null
 
-        val intent = Intent(this@SettingActivity, LoginActivity::class.java).apply {
+        Intent(this@SettingActivity, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        startActivity(intent)
-        finish() // SettingActivity를 명시적으로 종료
+        }.also { startActivity(it) }
+        finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        return if (item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
     }
 }
