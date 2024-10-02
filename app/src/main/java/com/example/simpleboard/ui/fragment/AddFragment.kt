@@ -47,7 +47,7 @@ class AddFragment : Fragment() {
                 } else {
                     val post = Post(id = UUID.randomUUID().toString(), content)
                     postViewModel.addPost(post)
-
+                    edtContent.text.clear()
                     (activity as MainActivity).binding.viewPager.currentItem = 0
                 }
             }

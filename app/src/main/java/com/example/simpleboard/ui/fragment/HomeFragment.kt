@@ -38,11 +38,16 @@ class HomeFragment : Fragment() {
             adapter = postAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-        // LiveData 관찰 및 데이터 업데이트
-        postViewModel.apply {
-            posts.observe(viewLifecycleOwner) { postAdapter.submitList(it) }
-            getPosts()
+        // LiveData 관찰
+        postViewModel.posts.observe(viewLifecycleOwner) { posts ->
+            postAdapter.submitList(posts)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        postViewModel.getPosts() // 데이터 업데이트
     }
 
     override fun onDestroyView() {
