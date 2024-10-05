@@ -6,5 +6,6 @@ package com.example.simpleboard.data
 
 data class Post(
     val id: String = "",
-    val content: String = ""
+    val content: String = "",
+    val createdAt: Long = System.currentTimeMillis()
 )

@@ -15,7 +15,7 @@ import com.example.simpleboard.repository.PostRepository
 import com.example.simpleboard.ui.activity.MainActivity
 import com.example.simpleboard.viewmodel.PostViewModel
 import com.example.simpleboard.viewmodel.PostViewModelFactory
-import java.util.UUID
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AddFragment : Fragment() {
     private var _binding: FragmentAddBinding? = null
@@ -45,7 +45,12 @@ class AddFragment : Fragment() {
                 if (content.isBlank()) {
                     showToast(requireContext(), R.string.content.toString())
                 } else {
-                    val post = Post(id = UUID.randomUUID().toString(), content)
+                    // Firestore에서 자동 생성된 문서 id 사용
+                    val docRef = FirebaseFirestore.getInstance().collection("posts").document()
+                    val postId = docRef.id // 자동 생성된 id
+
+                    val post = Post(id = postId, content = content, createdAt = System.currentTimeMillis())
+
                     postViewModel.addPost(post)
                     edtContent.text.clear()
                     (activity as MainActivity).binding.viewPager.currentItem = 0
