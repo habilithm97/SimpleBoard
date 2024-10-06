@@ -27,7 +27,13 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
         _addPostStatus.value = runCatching { repository.addPost(post) }.isSuccess
     }
 
-    fun getPosts() = viewModelScope.launch {
-        _posts.value = repository.getPosts()
+    init {
+        listenToPosts()
+    }
+
+    private fun listenToPosts() {
+        repository.getPostsSnapshotListener { postList ->
+            _posts.value = postList
+        }
     }
 }

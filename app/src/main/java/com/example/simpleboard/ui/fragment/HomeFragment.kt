@@ -44,12 +44,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        postViewModel.getPosts() // 데이터 업데이트
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // 메모리 릭 방지

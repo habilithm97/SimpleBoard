@@ -17,19 +17,20 @@ class PostRepository {
         }.onFailure { it.printStackTrace() }
     }
 
-    suspend fun getPosts(): List<Post> {
-        return runCatching {
-            /* Firestore에서 모든 문서들을 비동기로 가져오고 완료될 때까지 대기,
-             가져온 문서들을 순회하며 각 문서를 Post 객체로 변환 (변환된 값이 null인 경우는 제외) */
-            postCollection
-                .orderBy("createdAt", Query.Direction.DESCENDING)
-                .get()
-                .await()
-                .documents
-                .mapNotNull { it.toObject(Post::class.java) }
-        }.getOrElse {
-            it.printStackTrace()
-            emptyList()
+    fun getPostsSnapshotListener(onPostsUpdated: (List<Post>) -> Unit) {
+        val query = postCollection.orderBy("createdAt", Query.Direction.DESCENDING)
+        query.addSnapshotListener { snapshot, error ->
+            // 가져온 Snapshot에서 문서들을 순회하며 Post 객체로 변환
+            val posts = snapshot?.documents?.mapNotNull {
+                it.toObject(Post::class.java)
+            } ?: emptyList() // Snapshot이 null이면 빈 리스트 반환
+
+            onPostsUpdated(posts) // 변환된 posts를 전달
+
+            if (error != null) {
+                error.printStackTrace()
+                return@addSnapshotListener
+            }
         }
     }
 }
