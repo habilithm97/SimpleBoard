@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.simpleboard.R
@@ -49,7 +50,8 @@ class AddFragment : Fragment() {
                     val docRef = FirebaseFirestore.getInstance().collection("posts").document()
                     val postId = docRef.id // 자동 생성된 id
 
-                    val post = Post(id = postId, content = content, createdAt = System.currentTimeMillis())
+                    val post =
+                        Post(id = postId, content = content, createdAt = System.currentTimeMillis())
 
                     postViewModel.addPost(post)
                     edtContent.text.clear()
@@ -62,6 +64,15 @@ class AddFragment : Fragment() {
     private fun showToast(context: Context, msg: String) {
         toast?.cancel()
         toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT).apply { show() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        binding.edtContent.requestFocus()
+
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.edtContent, InputMethodManager.SHOW_IMPLICIT)
     }
 
     override fun onDestroyView() {
