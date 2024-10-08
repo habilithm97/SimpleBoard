@@ -36,11 +36,23 @@ class HomeFragment : Fragment() {
 
         binding.recyclerView.apply {
             adapter = postAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext()).apply {
+                reverseLayout = true
+                stackFromEnd = true
+            }
         }
         // LiveData 관찰
         postViewModel.posts.observe(viewLifecycleOwner) { posts ->
             postAdapter.submitList(posts)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val itemCount = postAdapter.itemCount
+        if (itemCount > 0) {
+            binding.recyclerView.smoothScrollToPosition(itemCount - 1)
         }
     }
 

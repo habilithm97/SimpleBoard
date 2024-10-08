@@ -18,7 +18,7 @@ class PostRepository {
     }
 
     fun getPostsSnapshotListener(onPostsUpdated: (List<Post>) -> Unit) {
-        val query = postCollection.orderBy("createdAt", Query.Direction.DESCENDING)
+        val query = postCollection.orderBy("createdAt")
         query.addSnapshotListener { snapshot, error ->
             // 가져온 Snapshot에서 문서들을 순회하며 Post 객체로 변환
             val posts = snapshot?.documents?.mapNotNull {
