@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.simpleboard.adapter.PostAdapter
@@ -16,7 +17,7 @@ import com.example.simpleboard.viewmodel.PostViewModelFactory
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val postAdapter by lazy { PostAdapter() }
+    private lateinit var postAdapter: PostAdapter
 
     private val postViewModel: PostViewModel by lazy {
         val repository = PostRepository()
@@ -34,6 +35,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        postAdapter = PostAdapter { postId ->
+            showDeleteDialog(postId)
+        }
+
         binding.recyclerView.apply {
             adapter = postAdapter
             layoutManager = LinearLayoutManager(requireContext()).apply {
@@ -45,6 +50,17 @@ class HomeFragment : Fragment() {
         postViewModel.posts.observe(viewLifecycleOwner) { posts ->
             postAdapter.submitList(posts)
         }
+    }
+
+    private fun showDeleteDialog(postId: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("삭제하기")
+            .setMessage("게시물을 삭제하시겠습니까?")
+            .setPositiveButton("삭제") { _, _ ->
+                postViewModel.deletePost(postId)
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
     override fun onResume() {

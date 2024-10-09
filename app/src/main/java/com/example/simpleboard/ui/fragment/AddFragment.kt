@@ -50,8 +50,7 @@ class AddFragment : Fragment() {
                     val docRef = FirebaseFirestore.getInstance().collection("posts").document()
                     val postId = docRef.id // 자동 생성된 id
 
-                    val post =
-                        Post(id = postId, content = content, createdAt = System.currentTimeMillis())
+                    val post = Post(id = postId, content = content, createdAt = System.currentTimeMillis())
 
                     postViewModel.addPost(post)
                     edtContent.text.clear()

@@ -21,17 +21,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:padding="15dp">
 
             <TextView
                 android:id="@+id/tvContent"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
                 android:fontFamily="@font/bookkmyungjo_light"
                 android:text="@{post.content}"
                 android:textColor="@color/gray"
                 android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/optionsMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_more_vert" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

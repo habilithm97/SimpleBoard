@@ -11,4 +11,5 @@
     <string name="setting">설정</string>
     <string name="content">내용을 입력하세요. </string>
     <string name="upload">업로드</string>
+    <string name="delete">삭제</string>
 </resources>

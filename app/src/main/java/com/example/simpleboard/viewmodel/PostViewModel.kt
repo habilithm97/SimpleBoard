@@ -1,5 +1,6 @@
 package com.example.simpleboard.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,9 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     private val _addPostStatus = MutableLiveData<Boolean>() // Post 추가 작업 상태
     val addPostStatus: LiveData<Boolean> get() = _addPostStatus
 
+    private val _deletePostStatus = MutableLiveData<Boolean>() // Post 삭제 작업 상태
+    val deletePostStatus: LiveData<Boolean> get() = _deletePostStatus
+
     private val _posts = MutableLiveData<List<Post>>() // Firestore에서 가져온 Post 리스트
     val posts: LiveData<List<Post>> get() = _posts
 
@@ -27,9 +31,11 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
         _addPostStatus.value = runCatching { repository.addPost(post) }.isSuccess
     }
 
-    init {
-        listenToPosts()
+    fun deletePost(postId: String) = viewModelScope.launch {
+        _deletePostStatus.value = runCatching { repository.deletePost(postId) }.isSuccess
     }
+
+    init { listenToPosts() }
 
     private fun listenToPosts() {
         repository.getPostsSnapshotListener { postList ->

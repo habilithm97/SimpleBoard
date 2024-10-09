@@ -5,7 +5,7 @@ package com.example.simpleboard.data
  -> 항상 유효한 상태의 객체 */
 
 data class Post(
-    val id: String = "",
+    var id: String = "",
     val content: String = "",
     val createdAt: Long = System.currentTimeMillis()
 )

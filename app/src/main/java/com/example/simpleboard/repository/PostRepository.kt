@@ -1,8 +1,8 @@
 package com.example.simpleboard.repository
 
+import android.util.Log
 import com.example.simpleboard.data.Post
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 
 /* Firestore : Firebase의 클라우드 DB 서비스로, NoSQL 방식의 실시간 DB를 제공함
@@ -12,8 +12,17 @@ class PostRepository {
     private val postCollection = firestore.collection("posts")
 
     suspend fun addPost(post: Post) {
+        val documentRef = postCollection.document()
+        post.id = documentRef.id
+
         runCatching {
-            postCollection.add(post).await() // await() : 작업이 완료될 때까지 대기
+            documentRef.set(post).await()
+        }.onFailure { it.printStackTrace() }
+    }
+
+    suspend fun deletePost(postId: String) {
+        runCatching {
+            postCollection.document(postId).delete().await()
         }.onFailure { it.printStackTrace() }
     }
 
