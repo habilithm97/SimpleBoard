@@ -12,4 +12,6 @@
     <string name="content">내용을 입력하세요. </string>
     <string name="upload">업로드</string>
     <string name="delete">삭제</string>
+    <string name="friend">친구</string>
+    <string name="post">게시물</string>
 </resources>

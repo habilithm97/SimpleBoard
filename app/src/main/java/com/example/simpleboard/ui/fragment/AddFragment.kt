@@ -70,8 +70,10 @@ class AddFragment : Fragment() {
 
         binding.edtContent.requestFocus()
 
+        /*
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.edtContent, InputMethodManager.SHOW_IMPLICIT)
+         */
     }
 
     override fun onDestroyView() {
