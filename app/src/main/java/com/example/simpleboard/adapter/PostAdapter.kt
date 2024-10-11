@@ -9,12 +9,31 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpleboard.R
 import com.example.simpleboard.data.Post
-import com.example.simpleboard.databinding.ItemPostBinding
+import com.example.simpleboard.databinding.ItemHomePostBinding
+import com.example.simpleboard.databinding.ItemProfilePostBinding
 
-class PostAdapter(private val onPostDelete: (String) -> Unit) :
-    ListAdapter<Post, PostAdapter.PostViewHolder>(DIFF_CALLBACK) {
+class PostAdapter(private val fragmentType: Int, private val onPostDelete: (String) -> Unit) :
+    ListAdapter<Post, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
-    inner class PostViewHolder(private val binding: ItemPostBinding) :
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Post>() {
+            override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+                return oldItem == newItem
+            }
+        }
+        const val HOME = 0
+        const val PROFILE = 1
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return fragmentType
+    }
+
+    inner class HomePostViewHolder(private val binding: ItemHomePostBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.post = post // XML에서 직접 데이터를 참조하여 자동으로 UI 업데이트
@@ -42,24 +61,33 @@ class PostAdapter(private val onPostDelete: (String) -> Unit) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostAdapter.PostViewHolder {
-        val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding)
+    inner class ProfilePostViewHolder(private val binding: ItemProfilePostBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(post: Post) {
+            binding.post = post
+            binding.executePendingBindings()
+        }
     }
 
-    override fun onBindViewHolder(holder: PostAdapter.PostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            HOME -> { val binding = ItemHomePostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                HomePostViewHolder(binding)
+            }
+
+            PROFILE -> {
+                val binding = ItemProfilePostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ProfilePostViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Post>() {
-            override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
-                return oldItem == newItem
-            }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val post = getItem(position)
+        when (holder) {
+            is HomePostViewHolder -> holder.bind(post)
+            is ProfilePostViewHolder -> holder.bind(post)
         }
     }
 }

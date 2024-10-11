@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postAdapter = PostAdapter { postId ->
+        postAdapter = PostAdapter(PostAdapter.HOME) { postId ->
             showDeleteDialog(postId)
         }
 
