@@ -74,7 +74,6 @@ class PostAdapter(private val fragmentType: Int, private val onPostDelete: (Stri
             HOME -> { val binding = ItemHomePostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 HomePostViewHolder(binding)
             }
-
             PROFILE -> {
                 val binding = ItemProfilePostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ProfilePostViewHolder(binding)

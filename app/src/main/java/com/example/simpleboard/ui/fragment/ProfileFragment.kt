@@ -52,7 +52,9 @@ class ProfileFragment : Fragment() {
 
         val itemCount = postAdapter.itemCount
         if (itemCount > 0) {
-            binding.recyclerview.smoothScrollToPosition(itemCount - 1)
+            /* postAdapter.submitList(posts.reversed())
+            -> 역순으로 제출했을 때의 마지막 아이템 위치는 0 */
+            binding.recyclerview.smoothScrollToPosition(0)
         }
     }
 
