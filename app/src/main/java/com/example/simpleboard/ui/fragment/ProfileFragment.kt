@@ -44,6 +44,7 @@ class ProfileFragment : Fragment() {
         // LiveData 관찰
         postViewModel.posts.observe(viewLifecycleOwner) { posts ->
             postAdapter.submitList(posts.reversed())
+            binding.tvPosts.text = postAdapter.itemCount.toString()
         }
     }
 
