@@ -71,7 +71,7 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/bookkmyungjo_light"
                 android:gravity="center"
-                android:text="158"
+                android:text="0"
                 android:textSize="20sp" />
 
         </LinearLayout>

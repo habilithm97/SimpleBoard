@@ -8,15 +8,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.viewpager2.widget.ViewPager2
+import androidx.fragment.app.Fragment
 import com.example.simpleboard.R
-import com.example.simpleboard.adapter.ViewPagerAdapter
 import com.example.simpleboard.databinding.ActivityMainBinding
+import com.example.simpleboard.ui.fragment.AddFragment
+import com.example.simpleboard.ui.fragment.ChatFragment
+import com.example.simpleboard.ui.fragment.HomeFragment
+import com.example.simpleboard.ui.fragment.ProfileFragment
+import com.example.simpleboard.ui.fragment.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    val menuItems = listOf(
+    private val menuItems = listOf(
         R.id.nav_home,
         R.id.nav_search,
         R.id.nav_add,
@@ -33,6 +37,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
+        if (savedInstanceState == null) {
+            switchFragment(HomeFragment())
+        }
         init()
     }
 
@@ -41,23 +48,25 @@ class MainActivity : AppCompatActivity() {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayShowTitleEnabled(false) // Title 제거
 
-            viewPager.adapter = ViewPagerAdapter(this@MainActivity)
-
-            viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    bottomNavi.selectedItemId = menuItems.getOrNull(position) ?: return
-                }
-            })
             bottomNavi.setOnItemSelectedListener { item ->
                 val position = menuItems.indexOf(item.itemId)
-                if (position != -1) {
-                    viewPager.currentItem = position
-                } else {
-                    return@setOnItemSelectedListener true
+                when (position) {
+                    0 -> switchFragment(HomeFragment())
+                    1 -> switchFragment(SearchFragment())
+                    2 -> switchFragment(AddFragment())
+                    3 -> switchFragment(ProfileFragment())
+                    4 -> switchFragment(ChatFragment())
+                    else -> return@setOnItemSelectedListener false
                 }
                 true
             }
         }
+    }
+
+    fun switchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

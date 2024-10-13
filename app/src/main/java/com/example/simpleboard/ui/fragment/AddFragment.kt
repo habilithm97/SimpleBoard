@@ -54,7 +54,7 @@ class AddFragment : Fragment() {
 
                     postViewModel.addPost(post)
                     edtContent.text.clear()
-                    (activity as MainActivity).binding.viewPager.currentItem = 0
+                    (activity as MainActivity).switchFragment(HomeFragment())
                 }
             }
         }
